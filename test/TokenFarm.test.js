@@ -23,7 +23,7 @@ contract('TokenFarm', ([owner,investor]) => {
         await dappToken.transfer(tokenFarm.address,tokens('1000000'))
 
         //Send tokens to investor
-        await daiToken.transfer(investor,tokens('200'), {from: owner})
+        await daiToken.transfer(investor,tokens('100'), {from: owner})
     })
 
     describe('Mock DAI deployment', async () => {
@@ -59,8 +59,7 @@ contract('TokenFarm', ([owner,investor]) => {
 
             //check investor balance before staking
             result = await daiToken.balanceOf(investor)
-            assert.equal(result.toSting(),tokens('100'), 'investor Mock DAI wallet balance correct before staking')
-
+            assert.equal(result.toString(),tokens('100'), 'investor Mock DAI wallet balance correct before staking')
         })
     })
 })
