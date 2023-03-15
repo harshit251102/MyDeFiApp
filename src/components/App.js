@@ -11,8 +11,22 @@ class App extends Component {
 
   async loadBlockchainData() {
     const web3 = window.web3
+
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
+
+    const networkId = await web3.eth.net.getId()
+
+    // Load DaiToken
+    const daiTokenData = DaiToken.networks[networkId]
+    if(daiTokenData) {
+      const daiToken = new web3.eth.Contract(DaiToken.abi, daiTokenData.address)
+      this.setState({ daiToken })
+      let daiTokenBalance = await daiToken.methods.balanceOf(this.state.account).call()
+      this.setState({ daiTokenBalance: daiTokenBalance.toString() })
+    } else {
+      window.alert('DaiToken contract not deployed to detected network.')
+    }
   }
 
   async loadWeb3() {
@@ -31,7 +45,14 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      account: '0x0'
+      account: '0x0',
+      daiToken: {},
+      dappToken: {},
+      tokenFarm: {},
+      daiTokenBalance : '0',
+      dappTokenBalance : '0',
+      stakingBalance : '0',
+      loading : true
     }
   }
 
