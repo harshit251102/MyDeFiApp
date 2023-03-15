@@ -27,6 +27,17 @@ class App extends Component {
     } else {
       window.alert('DaiToken contract not deployed to detected network.')
     }
+
+    // Load DappToken
+    const dappTokenData = DappToken.networks[networkId]
+    if(dappTokenData) {
+      const dappToken = new web3.eth.Contract(DappToken.abi, dappTokenData.address)
+      this.setState({ dappToken })
+      let dappTokenBalance = await dappToken.methods.balanceOf(this.state.account).call()
+      this.setState({ dappTokenBalance: dappTokenBalance.toString() })
+    } else {
+      window.alert('DappToken contract not deployed to detected network.')
+    }
   }
 
   async loadWeb3() {
