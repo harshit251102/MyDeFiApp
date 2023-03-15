@@ -88,7 +88,7 @@ contract('TokenFarm', ([owner,investor]) => {
             await tokenFarm.issueTokens({from : investor}).should.be.rejected;
 
             //Unstake Tokens
-            await tokenFarm.unStakeTokens({from : investor})
+            await tokenFarm.unstakeTokens({from : investor})
 
             //Check results after unstaking
             result = await daiToken.balanceOf(investor)
